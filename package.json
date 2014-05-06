@@ -11,8 +11,9 @@
     "url": "git://github.com/mdellanoce/node-mongo-writable-stream.git"
   },
   "keywords": [
-    "s3",
-    "glob"
+    "mongodb",
+    "writable",
+    "stream"
   ],
   "author": "Michael Dellanoce <michael.dellanoce@gmail.com>",
   "license": "MIT",
