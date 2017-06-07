@@ -2,7 +2,7 @@ var async = require('async');
 var readArray = require('event-stream').readArray;
 var should = require('should');
 var MongoClient = require('mongodb').MongoClient;
-var MongoWritableStream = require('../');
+var MongoWritableStream = require('../mongo-writable-stream');
 
 describe('MongoWritableStream', function () {
 
@@ -74,6 +74,35 @@ describe('MongoWritableStream', function () {
 			}, 0).should.eql(6);
 			done();
 		});
+	});
+
+
+	it('should save if passed parseable JSON string', function (done) {
+		var self = this;
+		async.waterfall([
+			function(callback) {
+				var insert = new MongoWritableStream({url: self.url, collection: self.collectionName});
+				insert.on('finish', callback);
+				readArray(["{\"_id\": \"1\", \"value\":\"100\"}", "{\"_id\": \"2\", \"value\":\"200\"}"]).pipe(insert);
+			},
+			function(callback) {
+				self.collection.find({}).toArray(callback);
+			}
+		], function(err, docs) {
+			docs.should.have.length(2);
+			done();
+		});
+	});
+
+	it('should throw if passed invalid JSON string', function(done) {
+		var self = this;
+		var insert = new MongoWritableStream({url: self.url, collection: self.collectionName});
+		insert.on('error', function(err) {
+			should.exist(err);
+			done();
+		})
+		insert.write("{\"_id\": \"1\", \"value\"\"100\"");
+
 	});
 
 });

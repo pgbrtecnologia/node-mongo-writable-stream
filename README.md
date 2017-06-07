@@ -1,4 +1,4 @@
-# MongoWritableStream
+# MongoStreamWritable
 
 A writable stream that inserts or updates MongoDB documents.
 
@@ -6,9 +6,9 @@ A writable stream that inserts or updates MongoDB documents.
 
 ## Insert
 
-    var MongoWritableStream = require('mongo-writable-stream');
+    var MongoStream = require('mongo-stream-writable');
 
-    var stream = new MongoWritableStream({
+    var stream = new MongoStream({
     	url: 'mongodb://localhost/yourdb',
     	collection: 'yourcollection'
     });
@@ -18,9 +18,9 @@ A writable stream that inserts or updates MongoDB documents.
 
 ## Update
 
-    var MongoWritableStream = require('mongo-writable-stream');
+    var MongoStream = require('mongo-stream-writable');
 
-    var stream = new MongoWritableStream({
+    var stream = new MongoStream({
     	url: 'mongodb://localhost/yourdb',
     	collection: 'yourcollection',
     	upsert: true,
@@ -29,4 +29,3 @@ A writable stream that inserts or updates MongoDB documents.
 
     stream.write({ name: 'testdoc', value: 42 });
     stream.end();
-

@@ -52,6 +52,15 @@ MongoWritableStream.prototype._write = function (obj, encoding, callback) {
 };
 
 MongoWritableStream.prototype._writeToMongo = function (obj, callback) {
+	if (typeof obj === 'string') {
+		try {
+			var obj = JSON.parse(obj);
+		}
+		catch (err) {
+			return callback(err);
+		}
+	}
+
 	if (this.options.upsert) {
 		var selector = this._getUpdateSelector(this.options.upsertFields, obj);
 		this.collection.update(selector, obj, { upsert: true }, callback);
